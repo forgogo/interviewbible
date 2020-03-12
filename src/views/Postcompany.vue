@@ -11,6 +11,7 @@
         placeholder="公司名"
         required
         maxlength="20"
+        :rules="[{ validator, message: '请输入正确内容 '}]"
       />
       <van-field
         v-model="message"
@@ -18,9 +19,9 @@
         rows="6"
         autosize
         label="留言"
+        :rules="[{ required:true, message: '请输入正确内容 '}]"
         type="textarea"
         placeholder="请输入留言"
-        required
       />
       <van-field name="img_data" label="文件上传">
         <template #input>
@@ -53,6 +54,10 @@ export default {
   },
 
   methods: {
+    // 校验函数返回 true 表示校验通过，false 表示不通过
+    validator(val) {
+      return /^[A-Za-z0-9\u4e00-\u9fa5]+$/.test(val);
+    },
     onClickLeft() {
       this.$router.back();
     },
@@ -61,7 +66,7 @@ export default {
       // 此时可以自行将文件上传至服务器
       file.status = "uploading";
       file.message = "上传中...";
-      document.querySelector('.van-button').disabled=true;
+      document.querySelector(".van-button").disabled = true;
       let formdata = new FormData();
       formdata.append("tmp_file", file.file);
 
@@ -69,7 +74,7 @@ export default {
       console.log(res);
       if (res.data.msg === "success") {
         file.status = "done";
-        document.querySelector('.van-button').disabled='';
+        document.querySelector(".van-button").disabled = "";
       }
       // if (this.imgs[detail.index]==undefined ) {
       //   console.log(11);
@@ -97,9 +102,9 @@ export default {
 
       const res = await postCompany(formdata);
       if (res.data.msg == "success") {
-        document.querySelector('.van-button').disabled=true;
+        document.querySelector(".van-button").disabled = true;
         Toast("提交成功");
-         this.$router.push({name:'Index'})
+        this.$router.push({ name: "Index" });
       }
     }
   }

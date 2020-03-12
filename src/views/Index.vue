@@ -51,9 +51,9 @@ export default {
       keywords: ""
     };
   },
-  beforeMount() {},
+  beforeMount() { this.geteDa();},
   mounted() {
-    this.geteDa();
+   
   },
   components: {
     compantBlock
